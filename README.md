@@ -27,14 +27,14 @@ The section in the [diagram](Favero_repeater.png) shows what is required from th
 - Wemo RX pin to Favero RJ-11 pin 2.
 - Wemo GND pin to Favero RJ-11 pin 3.
     - There must be a 100 Ohm resistor in between the Favero scoring machine and GND (no other devices need the 100 ohm resistor).
-    - The GND pin on the Wemo will also need to be connected to your LED strips and their power source ground as well. A common ground between the components is required.
+    - The GND pin on the Wemo will also need to be connected to your LED strips and their power source ground as well. A common ground between all the components is required.
 
 <h3>Microcontroller to LEDs</h3>
 
 - Connect the "left fencer" LED strip data to D2 (pin 4) (fencer on the left / FOTL) on the Wemo.
 - Connect the "right fencer" LED strip data to D1 (pin 5) (fencer on the right / FOTR) on the Wemo.
-- The GND pins will need to be connected on the same rail to your power source, LED strip, the scoring machine, and the Wemo's ground pin. A 100 ohm resistor is required from GND to the Favera FA scoring machine RJ-11 pin 3 (no other devices).
-- Connect your 5v power to each LED strip. 
+- The GND pins will need to be connected on the same rail to your power source, LED strip, the scoring machine, and the Wemo's ground pin. A 100 ohm resistor is required from GND to the Favera FA scoring machine RJ-11 pin 3 (no other devices). A common ground between all the components is required.
+- Connect your 5v/12v/24v or whatever power source you have to each LED strip for their power. If you need help figuring out how to power your LEDs, https://quinled.info/ is a fantastic resource. 
 
 
 <h3>Edit  Wemos_Favero_Serial_Parser_Rev_1.ino</h3>
