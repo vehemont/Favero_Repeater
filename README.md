@@ -2,7 +2,7 @@
 
 The Favero Full Arm scoring machines use serial data output that can be interpreted through an Arduino and then used to send data signals for ws2812b LED lights for strip repeater lights.
 
-Full credit for the original concept and code came from BenKohn2004 and their repository: https://github.com/BenKohn2004/Favero_Overlay
+Full credit for the original concept and original code came from BenKohn2004 and their repository: https://github.com/BenKohn2004/Favero_Overlay
 
 This uses one [Wemos D1 mini](https://www.amazon.com/Organizer-ESP8266-Internet-Development-Compatible/dp/B081PX9YFV/ref=sr_1_3?crid=3HISM104Q8NMO&keywords=wemos+d1+mini&qid=1636054524&qsid=133-6299387-8119633&sprefix=wemos%2Caps%2C400&sr=8-3&sres=B081PX9YFV%2CB08C7FYM5T%2CB08QZ2887K%2CB07W8ZQY62%2CB07RBNJLK4%2CB08FZ9YDGS%2CB07BK435ZW%2CB07V84VWSM%2CB07PF3NK12%2CB08H1YRN4M%2CB08FQYZX37%2CB073CQVFLK%2CB07VN328FS%2CB0899N647N%2CB07G9HZ5LM%2CB08MKLRSNH&srpt=SINGLE_BOARD_COMPUTER). The hardware is assembled as shown in the [diagram](Favero_repeater.png). This is a basic overview of how it works through a breadboard. I recommend using a protoboard/perfboard/pcb for real applications. 
 
@@ -40,7 +40,7 @@ The section in the [diagram](Favero_repeater.png) shows what is required from th
 <h3>Edit  Wemos_Favero_Serial_Parser_Rev_1.ino</h3>
 
 - Edit line 10 of [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L10) to the total number of LEDs (applies to both fencers).
-- Edit line 44 of [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L46) to the power draw you want. This will cap FastLED to only output a maximum number of volts and milliamps to prevent your LEDs from going out. 
+- Edit line 44 of [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L46) to the power draw you want. This will have FastLED tell the LED strips to only draw a maximum power draw to prevent your LEDs from going out, and set the amps to an appropriate amount. 
     - `FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000)` - Where `5` is 5 volts, and `2000` is 2000 milliamps (2 amps). This applies to each LED matrix seperately.
 
 <h3>Troubleshooting</h3>
