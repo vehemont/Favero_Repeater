@@ -11,7 +11,7 @@ This uses one [Wemos D1 mini](https://www.amazon.com/Organizer-ESP8266-Internet-
 
 <h3>Requirements</h3>
 
-- Two ws2812 RGB LED strips and knowing how many total LEDs in each strip to change line 11 in [Wemos_Favero_Serial_Parser_Rev_1.ino](Wemos_Favero_Serial_Parser_Rev_1/Wemos_Favero_Serial_Parser_Rev_1.ino).  
+- Two ws2812 RGB LED strips and knowing how many total LEDs in each strip to change line 11 in [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino).  
 - Power source for the RGB LED strips and microcontroller (not covered here)
 - A 100 ohm resistor
 - A favero full arm scoring machine with a rj-11 serial port on the back.
@@ -20,14 +20,14 @@ This uses one [Wemos D1 mini](https://www.amazon.com/Organizer-ESP8266-Internet-
 
 <h3>Microcontroller to Favero</h3>
 
-The section in the [schematic](Schematic_Favero_Overlay.pdf) for "Favero Serial Parser" is what is required for a serial connection from the microcontroller to the Favero scoring machine.
+The section in the [diagram](Favero_repeater.png) shows what is required from the microcontroller to the Favero scoring machine.
 
 - Plug one end of an RJ-11 cable into the Favero FA scoring machine serial port on the back (keep powered off completely until ready to test).
 - Wemo 3.3V pin to Favero RJ-11 pin 1.
 - Wemo RX pin to Favero RJ-11 pin 2.
 - Wemo GND pin to Favero RJ-11 pin 3.
     - There must be a 100 Ohm resistor in between the Favero scoring machine and GND (no other devices need the 100 ohm resistor).
-    - The GND pin on the Wemo will also need to be connected to your LED strips and their power source ground as well.
+    - The GND pin on the Wemo will also need to be connected to your LED strips and their power source ground as well. A common ground between the components is required.
 
 <h3>Microcontroller to LEDs</h3>
 
@@ -39,13 +39,13 @@ The section in the [schematic](Schematic_Favero_Overlay.pdf) for "Favero Serial 
 
 <h3>Edit  Wemos_Favero_Serial_Parser_Rev_1.ino</h3>
 
-- Edit line 10 of [Wemos_Favero_Serial_Parser_Rev_1.ino](Wemos_Favero_Serial_Parser_Rev_1/Wemos_Favero_Serial_Parser_Rev_1.ino#L10) to the total number of LEDs (applies to both fencers).
-- Edit line 44 of [Wemos_Favero_Serial_Parser_Rev_1.ino](Wemos_Favero_Serial_Parser_Rev_1/Wemos_Favero_Serial_Parser_Rev_1.ino#L44) to the power draw you want. This will cap FastLED to only output a maximum number of volts and milliamps to prevent your LEDs from going out. 
+- Edit line 10 of [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L10) to the total number of LEDs (applies to both fencers).
+- Edit line 44 of [Wemos_Favero_Serial_Parser_Rev_1.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L44) to the power draw you want. This will cap FastLED to only output a maximum number of volts and milliamps to prevent your LEDs from going out. 
     - `FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000)` - Where `5` is 5 volts, and `2000` is 2000 milliamps (2 amps). This applies to each LED matrix seperately.
 
 <h3>Troubleshooting</h3>
 
-I ran into an issue with my power supply for my LEDs causing lots of noise. I would see random serial output that didn't make sense because the scoring machine was having no changes, but I was receiving serial output for changes. Unplugging the LED power resolved the noise issue. I changed power supplies for my LEDs and it resolved my issue completely.
+I ran into an issue with my power supply for my LEDs causing lots of noise. I would see random serial output that didn't make sense because the scoring machine was having no changes, but I was receiving serial output for changes. Unplugging the LED power resolved the noise issue. I changed power supplies for my LEDs and it resolved my issue completely. I also got random junk data if my 3.3v wasn't stable, or I had a bad RJ-11 cable. 
 
 Bad serial output (nothing changing on scoring machine):
 ```
