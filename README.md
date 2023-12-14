@@ -47,13 +47,11 @@ The section in the [diagram](Favero_repeater.png) shows what is required from th
 
 I ran into an issue with my power supply for my LEDs causing lots of noise. I would see random serial output that didn't make sense because the scoring machine was having no changes, but I was receiving serial output for changes. Unplugging the LED power resolved the noise issue. I changed power supplies for my LEDs and it resolved my issue completely. I also got random junk data if my 3.3v wasn't stable, or I had a bad RJ-11 cable. 
 
-Bad serial output (nothing changing on scoring machine):
+If the scoring machine is not changing anything, like score, time, or lights, you should NOT be seeing the hex message change. You should only see the hex message change if something on the scoring machine is changing, like time, score, or cards.
+
+Bad serial output, with nothing changing on scoring machine:
 ```
 11:30:44.289 -> The message in HEX is: FF,0,0,0,0,0,0,0,10,0,
 11:30:45.554 -> The message in HEX is: FF,7F,0,0,0,0,0,0,0,0,
 11:30:45.882 -> The message in HEX is: FF,FD,0,0,0,0,0,0,0,0,
-```
-Good serial output (nothing changing on scoring machine):
-```
-11:45:23.587 -> The message in HEX is: FF,0,0,0,0,0,0,0,30,0,
 ```
