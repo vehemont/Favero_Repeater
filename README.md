@@ -40,7 +40,7 @@ The section in the [diagram](Favero_repeater.png) shows what is required from th
 <h3>Edit  Wemos_Favero_Serial_Parser_Rev_1.ino</h3>
 
 - Edit line 10 of [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L10) to the total number of LEDs (applies to both fencers).
-- Edit line 44 of [Wemos_Favero_Serial_Parser_Rev_1.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L44) to the power draw you want. This will cap FastLED to only output a maximum number of volts and milliamps to prevent your LEDs from going out. 
+- Edit line 44 of [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L46) to the power draw you want. This will cap FastLED to only output a maximum number of volts and milliamps to prevent your LEDs from going out. 
     - `FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000)` - Where `5` is 5 volts, and `2000` is 2000 milliamps (2 amps). This applies to each LED matrix seperately.
 
 <h3>Troubleshooting</h3>
