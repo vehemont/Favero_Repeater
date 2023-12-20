@@ -45,13 +45,12 @@ The section in the [diagram](Favero_repeater.png) shows what is required from th
 
 <h3>Troubleshooting</h3>
 
-I ran into an issue with my power supply for my LEDs causing lots of noise. I would see random serial output that didn't make sense because the scoring machine was having no changes, but I was receiving serial output for changes. Unplugging the LED power resolved the noise issue. I changed power supplies for my LEDs and it resolved my issue completely. I also got random junk data if my 3.3v wasn't stable, or I had a bad RJ-11 cable, or if my ground pin on my microcontroller was on the same leg of the circuit of my LEDs. I have the best luck by powering my microcontroller and connecting my ground and 5v directly to the power supply. 
+<h5>My LEDs are showing the wrong color (sometimes)!</h5>
+- The code is set to only send signals for the appropriate color for left and right fencers and white for off-target. If the colors are mismatched such as green and red on the opposite sides, then move your led strip or swap the data pin connections. If you are getting some other color like a blue or a unexpected white, its most likely your LED configuration that is causing the issue. There is a lot of knowledge that you need to know that comes with LED strips (that I hadn't known before this project), such as the power injection, wire gauge etc. 
 
-If the scoring machine is not changing anything, like score, time, or lights, you should NOT be seeing the hex message change. You should only see the hex message change if something on the scoring machine is changing, like time, score, or cards.
+<h5>The serial says I am getting a lot of wrong checksums?</h5>
+- This is caused by noise somewhere. My tests were usually the LED data pin causing the noise. I couldn't figure out how to stop it so I added the checksum verification to the program for the microcontroller. It will only accept messages from the scoring machine if the checksum matches to prevent corrupted data.  
 
-Bad serial output, with nothing changing on scoring machine:
-```
-11:30:44.289 -> The message in HEX is: FF,0,0,0,0,0,0,0,10,0,
-11:30:45.554 -> The message in HEX is: FF,7F,0,0,0,0,0,0,0,0,
-11:30:45.882 -> The message in HEX is: FF,FD,0,0,0,0,0,0,0,0,
+<h5>There is a small delay in the lights when two fencers don't make a touch at the same exact time, but both lights come on.</h5>
+- Your guess is as good as mine as to why this occurs. Could be noise causing the serial message to be thrown out so often it causes a delay. You might be able to get around this by sending a 5v signal to the serial connection rather than a 3.3v from the Wemos. I haven't tried it though.
 ```
