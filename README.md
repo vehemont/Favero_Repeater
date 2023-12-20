@@ -41,7 +41,7 @@ The section in the [diagram](Favero_repeater.png) shows what is required from th
 
 - Edit line 10 of [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L10) to the total number of LEDs (applies to both fencers).
 - Edit line 44 of [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L46) to the power draw you want. This will have FastLED tell the LED strips to only draw a maximum power draw to prevent your LEDs from going out, and set the amps to an appropriate amount. 
-    - `FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000)` - Where `5` is 5 volts, and `2000` is 2000 milliamps (2 amps). This applies to each LED matrix seperately.
+    - `FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000)` - Where `5` is 5 volts, and `2000` is 2000 milliamps (2 amps). This applies to the total output FastLED will allow to be output.
 
 <h3>Troubleshooting</h3>
 

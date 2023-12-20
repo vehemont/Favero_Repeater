@@ -43,7 +43,7 @@ void setup() {
 
   FastLED.addLeds<WS2812, FOTL_DATA, GRB>(left, NUM_LEDS);
   FastLED.addLeds<WS2812, FOTR_DATA, GRB>(right, NUM_LEDS);
-  FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000); 
+  FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000); // This is 5v, 2amps. Change this to your led strip max output.
 
   Serial.setRxBufferSize(1024);
   Serial.begin(2400);  // initialize serial port
