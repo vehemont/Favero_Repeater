@@ -45,7 +45,7 @@ The section in the [diagram](Favero_repeater.png) shows what is required from th
 
 <h3>Troubleshooting</h3>
 
-I ran into an issue with my power supply for my LEDs causing lots of noise. I would see random serial output that didn't make sense because the scoring machine was having no changes, but I was receiving serial output for changes. Unplugging the LED power resolved the noise issue. I changed power supplies for my LEDs and it resolved my issue completely. I also got random junk data if my 3.3v wasn't stable, or I had a bad RJ-11 cable. 
+I ran into an issue with my power supply for my LEDs causing lots of noise. I would see random serial output that didn't make sense because the scoring machine was having no changes, but I was receiving serial output for changes. Unplugging the LED power resolved the noise issue. I changed power supplies for my LEDs and it resolved my issue completely. I also got random junk data if my 3.3v wasn't stable, or I had a bad RJ-11 cable, or if my ground pin on my microcontroller was on the same leg of the circuit of my LEDs. I have the best luck by powering my microcontroller and connecting my ground and 5v directly to the power supply. 
 
 If the scoring machine is not changing anything, like score, time, or lights, you should NOT be seeing the hex message change. You should only see the hex message change if something on the scoring machine is changing, like time, score, or cards.
 
