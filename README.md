@@ -53,3 +53,7 @@ The section in the [diagram](Favero_repeater.png) shows what is required from th
 
 <h4>There is a small delay in the lights when two fencers don't make a touch at the same exact time, but both lights come on.</h4>
 - Your guess is as good as mine as to why this occurs. Could be noise causing the serial message to be thrown out so often it causes a delay. You might be able to get around this by sending a 5v signal to the serial connection rather than a 3.3v from the Wemos. I haven't tried it though.
+
+---
+
+If you have any improvements, please open a pull request. I am definitely not doing this the most optimal way.
