@@ -45,12 +45,11 @@ The section in the [diagram](Favero_repeater.png) shows what is required from th
 
 <h3>Troubleshooting</h3>
 
-<h5>My LEDs are showing the wrong color (sometimes)!</h5>
+<h4>My LEDs are showing the wrong color (sometimes)!</h4>
 - The code is set to only send signals for the appropriate color for left and right fencers and white for off-target. If the colors are mismatched such as green and red on the opposite sides, then move your led strip or swap the data pin connections. If you are getting some other color like a blue or a unexpected white, its most likely your LED configuration that is causing the issue. There is a lot of knowledge that you need to know that comes with LED strips (that I hadn't known before this project), such as the power injection, wire gauge etc. 
 
-<h5>The serial says I am getting a lot of wrong checksums?</h5>
+<h4>The serial says I am getting a lot of wrong checksums?</h4>
 - This is caused by noise somewhere. My tests were usually the LED data pin causing the noise. I couldn't figure out how to stop it so I added the checksum verification to the program for the microcontroller. It will only accept messages from the scoring machine if the checksum matches to prevent corrupted data.  
 
-<h5>There is a small delay in the lights when two fencers don't make a touch at the same exact time, but both lights come on.</h5>
+<h4>There is a small delay in the lights when two fencers don't make a touch at the same exact time, but both lights come on.</h4>
 - Your guess is as good as mine as to why this occurs. Could be noise causing the serial message to be thrown out so often it causes a delay. You might be able to get around this by sending a 5v signal to the serial connection rather than a 3.3v from the Wemos. I haven't tried it though.
-```

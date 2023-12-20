@@ -66,7 +66,7 @@ void loop() {
 
   //  Check to see if anything is available in the serial receive buffer
   while (Serial.available() > 0) {
-
+    // All of this serial handling was taken from https://github.com/BenKohn2004/Favero_Overlay
     // Create a place to hold the incoming message
     COUNTER = 0;
     MACHINE_OFF = false;
@@ -92,6 +92,8 @@ void loop() {
       message[message_pos] = inByte; // add the CRC 9th byte to the array
       byte checksum = 0;
       
+      // I took some help from https://github.com/Gioee/fav3er0-master-emulator to figure out this checksum
+      // https://www.reddit.com/r/Fencing/comments/cufcku/do_anyone_know_where_to_find_those_lightings_and/ey15ezm/
       for (int i = 0; i < MAX_MESSAGE_LENGTH; i++) {
         if (i == 9) {
           checksum = checksum % 256;
