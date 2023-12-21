@@ -46,7 +46,7 @@ void setup() {
   FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000); // This is 5v, 2amps. Change this to your max output between both strips combined.
 
   Serial.setRxBufferSize(1024);
-  Serial.begin(2400);  // FA-05 & FA-07 serial settings: 2400-N-8-1
+  Serial.begin(2400);  // FA-01, FA-05, & FA-07 serial settings: 2400-N-8-1
   delay(10);
   Serial.println();
   Serial.println();
@@ -69,11 +69,12 @@ void loop() {
     // All of this serial handling was taken from https://github.com/BenKohn2004/Favero_Overlay
     // Create a place to hold the incoming message
     COUNTER = 0;
-    MACHINE_OFF = false;
+    MACHINE_OFF = false; // To turn off the lights later
+
     static char message[MAX_MESSAGE_LENGTH];
     static char prev_message[MAX_MESSAGE_LENGTH];
 
-    char inByte = Serial.read();
+    char inByte = Serial.read(); // Retrieve the first byte from the buffer
 
     // Message coming in (check if starting character)
     if (inByte == STARTING_BYTE) {
@@ -90,7 +91,7 @@ void loop() {
       // I took some help from https://github.com/Gioee/fav3er0-master-emulator to figure out this checksum
       // https://www.reddit.com/r/Fencing/comments/cufcku/do_anyone_know_where_to_find_those_lightings_and/ey15ezm/
       for (int i = 0; i < MAX_MESSAGE_LENGTH; i++) { 
-        if (i == 9) { // Stop at the 10th byte (9th index)
+        if (i == 9) { // Stop at the 10th byte (9th index) so we don't include the checksum itself in our calculation
           checksum = checksum % 256; // CheckSum8 Modulo 256 - https://www.scadacore.com/tools/programming-calculators/online-checksum-calculator/
         } else {
             checksum += message[i]; // Add the current byte of the loop to the checksum total
@@ -194,6 +195,6 @@ void loop() {
       FastLED.show();
     }
     COUNTER = 0;
-    MACHINE_OFF = true;
+    MACHINE_OFF = true; // Confirmed the machine is off so stop trying to turn off the lights
       }
 }
