@@ -1,6 +1,6 @@
 # Favero_Repeater
 
-The Favero Full Arm scoring machines use serial data output that can be interpreted through an Arduino and then used to send data signals for ws2812b LED lights for strip repeater lights.
+The Favero Full Arm scoring machines use serial data output that can be interpreted through an Arduino and then used to send data signals for ws2812b LED lights for strip repeater lights. This should work for the FA-01, FA-05, and FA-07. I tested this with a FA-07.
 
 Full credit for the original concept and original code came from BenKohn2004 and their repository: https://github.com/BenKohn2004/Favero_Overlay
 
