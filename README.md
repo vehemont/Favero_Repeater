@@ -61,7 +61,7 @@ Credit for this chart goes to @Gioee: https://github.com/Gioee/fav3er0-master-em
     - Bit D6 = 0 not used 
     - Bit D7 = 0 not used 
     - Example: if byte 6° = 14h , we have D2=1 (red light=on) and D4=1 (right yellow light=on)
-    - Credit to: https://www.reddit.com/r/Fencing/comments/cufcku/do_anyone_know_where_to_find_those_lightings_and/ey15ezm/
+    - Credit to /u/Dalboz989 on Reddit: https://www.reddit.com/r/Fencing/comments/cufcku/do_anyone_know_where_to_find_those_lightings_and/ey15ezm/
 
 <h3>Troubleshooting</h3>
 
