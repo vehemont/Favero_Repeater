@@ -2,7 +2,8 @@
 
 The Favero Full Arm scoring machines use serial data output that can be interpreted through an Arduino and then used to send data signals for ws2812b LED lights for strip repeater lights. This should work for the FA-01, FA-05, and FA-07. I tested this with a FA-07.
 
-Full credit for the original concept and original code came from BenKohn2004 and their repository: https://github.com/BenKohn2004/Favero_Overlay
+Credit for the serial parsing came from @BenKohn2004 and their repository: https://github.com/BenKohn2004/Favero_Overlay
+Credit for discovering the checksum verification that is used goes to @Gioee: https://github.com/Gioee/fav3er0-master-emulator  
 
 This uses one [Wemos D1 mini](https://www.amazon.com/Organizer-ESP8266-Internet-Development-Compatible/dp/B081PX9YFV/ref=sr_1_3?crid=3HISM104Q8NMO&keywords=wemos+d1+mini&qid=1636054524&qsid=133-6299387-8119633&sprefix=wemos%2Caps%2C400&sr=8-3&sres=B081PX9YFV%2CB08C7FYM5T%2CB08QZ2887K%2CB07W8ZQY62%2CB07RBNJLK4%2CB08FZ9YDGS%2CB07BK435ZW%2CB07V84VWSM%2CB07PF3NK12%2CB08H1YRN4M%2CB08FQYZX37%2CB073CQVFLK%2CB07VN328FS%2CB0899N647N%2CB07G9HZ5LM%2CB08MKLRSNH&srpt=SINGLE_BOARD_COMPUTER) per fencing strip, and one LED object for each fencer (left and right). The hardware is assembled as shown in the [basic diagram](/diagrams/Favero_repeater_breadboard.png). This is a basic overview of how it works through a breadboard. I recommend using a protoboard/perfboard/pcb for real applications. [Some people swear online](https://youtu.be/H4pFvqIxkhQ?si=C3Unc96JtROeyP44) to put a resistor between the data pin on the LED strip and the microcontroller, but I found my setup worked fine without it. The [full setup](/diagrams/Favero_repeater_full_setup.png) includes this resistor, but it may not be required for you.
 
