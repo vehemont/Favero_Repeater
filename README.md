@@ -1,4 +1,4 @@
-# Favero_Repeater
+# Repeater lights for Favero scoring machines
 
 The Favero Full Arm scoring machines use serial data output that can be interpreted through an Arduino and then used to send data signals for ws2812b LED lights for strip repeater lights. This should work for the FA-01, FA-05, and FA-07. I tested this with a FA-07.
 
@@ -12,7 +12,7 @@ This uses one [Wemos D1 mini](https://www.amazon.com/Organizer-ESP8266-Internet-
 
 <h3>Requirements</h3>
 
-- Two ws2812 RGB LED strips and knowing how many total LEDs in each strip to change line 10 in [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L10).  
+- Two ws2812b RGB LED strips and knowing how many total LEDs in each strip to change line 10 in [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L10).  
 - Power source for the RGB LED strips and microcontroller (not covered here)
 - A 100 ohm resistor
 - A favero full arm scoring machine with a rj-11 serial port on the back.
@@ -23,7 +23,7 @@ This uses one [Wemos D1 mini](https://www.amazon.com/Organizer-ESP8266-Internet-
 
 The section in the [diagram](/diagrams/Favero_repeater_breadboard.png) shows what is required from the microcontroller to the Favero scoring machine.
 
-- Plug one end of an RJ-11 cable into the Favero FA scoring machine serial port on the back (keep powered off completely until ready to test).
+- Plug one end of an RJ-11 cable into the Favero Full-Arm scoring machine serial port on the back: FA-01, FA-05, or FA-07.
 - Wemo 3.3V pin to Favero RJ-11 pin 3 (R).
 - Wemo RX pin to Favero RJ-11 pin 4 (G).
 - Wemo GND pin to Favero RJ-11 pin 5 (Y).
@@ -45,6 +45,7 @@ The section in the [diagram](/diagrams/Favero_repeater_breadboard.png) shows wha
     - `FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000)` - Where `5` is 5 volts, and `2000` is 2000 milliamps (2 amps). This applies to the total output FastLED will allow to be output.
 
 <h3>Serial stream</h3>
+
 Credit for this chart goes to @Gioee: https://github.com/Gioee/fav3er0-master-emulator  
 
 | Byte | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
@@ -67,12 +68,15 @@ Credit for this chart goes to @Gioee: https://github.com/Gioee/fav3er0-master-em
 <h3>Troubleshooting</h3>
 
 <h4>My LEDs are showing the wrong color (sometimes)!</h4>
-- The code is set to only send signals for the appropriate color for left and right fencers and white for off-target. If the colors are mismatched such as green and red on the opposite sides, then move your led strip or swap the data pin connections. If you are getting some other color like a blue or a unexpected white, its most likely your LED configuration that is causing the issue. There is a lot of knowledge that you need to know that comes with LED strips (that I hadn't known before this project), such as the power injection or wire gauge for voltage drop off. https://quinled.info/ is a fantastic resource for determing your LED strip power usage, and how to get the best results out of your LEDs. Be sure to watch some of the videos on their website or Youtube channel.
 
-<h4>The serial says I am getting a lot of wrong checksums?</h4>
+- The code is set to only send signals for the appropriate color for left (red) and right (green) fencers and white for off-target. If the colors are mismatched such as green and red on the opposite sides, then move your led strip or swap the data pin connections. You can also ensure your LED strips are truly RGB, or GRB and edit that in line 44 and 45 [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L44). If you are getting some other color like a blue or a unexpected white, its most likely your LED configuration that is causing the issue. There is a lot of knowledge that you need to know that comes with LED strips (that I hadn't known before this project), such as the power injection or wire gauge for voltage drop off. The site  https://quinled.info/ is a fantastic resource for determing your LED strip power usage, and how to get the best results out of your LEDs. Be sure to watch some of the videos on their website or Youtube channel.
+
+<h4>Serial monitor says I am getting a lot of wrong checksums?</h4>
+
 - This is caused by noise somewhere. My tests were usually the LED data pin causing the noise. I couldn't figure out how to stop it so I added the checksum verification to the serial parser for the microcontroller. The microcontroller will only accept messages from the scoring machine if the checksum matches to prevent corrupted data. In my testing with the checksum verification, I have never seen corrupted data hit the LED strips and turn on a light when a light has not been turned on. Without the checksum verification, electrical noise will send junk data to the serial port and the microcontroller may read a bit as having a light turned on therefore causing the LED strip to turn on a light when the scoring machine does not have that light turned on.
 
 <h4>There is a small delay in the lights when two fencers don't make a touch at the same exact time, but both lights come on.</h4>
+
 - Your guess is as good as mine as to why this occurs. Could be noise causing the serial message to be thrown out so often it causes a delay. This delay DOES occurr on the official Favero repeater I tested with.
 
 ---
