@@ -43,10 +43,10 @@ void setup() {
 
   FastLED.addLeds<WS2812, FOTL_DATA, GRB>(left, NUM_LEDS);
   FastLED.addLeds<WS2812, FOTR_DATA, GRB>(right, NUM_LEDS);
-  FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000); // This is 5v, 2amps. Change this to your led strip max output.
+  FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000); // This is 5v, 2amps. Change this to your max output between both strips combined.
 
   Serial.setRxBufferSize(1024);
-  Serial.begin(2400);  // initialize serial port
+  Serial.begin(2400);  // FA-05 & FA-07 serial settings: 2400-N-8-1
   delay(10);
   Serial.println();
   Serial.println();
@@ -77,46 +77,39 @@ void loop() {
 
     // Message coming in (check if starting character)
     if (inByte == STARTING_BYTE) {
-      // Resets message position
-      message_pos = 0;
-      // Stores the Byte in the message position
-      message[message_pos] = inByte;
-      //increments message position
-      message_pos++;
+      message_pos = 0; // Resets message position
+      message[message_pos] = inByte; // Stores the Byte in the message position
+      message_pos++; // Increments message position
     } else if (message_pos < (MAX_MESSAGE_LENGTH - 1)) {
-      // Stores the Byte in the message position
-      message[message_pos] = inByte;
-      //increments message position
-      message_pos++;
+      message[message_pos] = inByte; // Stores the Byte in the message position
+      message_pos++; // Increments message position
     } else if (message_pos == (MAX_MESSAGE_LENGTH - 1)) {
-      message[message_pos] = inByte; // add the CRC 9th byte to the array
-      byte checksum = 0;
+      message[message_pos] = inByte; // Add the last 10th byte that is the checksum to the array
+      byte checksum = 0; // Reset the checksum value
       
       // I took some help from https://github.com/Gioee/fav3er0-master-emulator to figure out this checksum
       // https://www.reddit.com/r/Fencing/comments/cufcku/do_anyone_know_where_to_find_those_lightings_and/ey15ezm/
-      for (int i = 0; i < MAX_MESSAGE_LENGTH; i++) {
-        if (i == 9) {
-          checksum = checksum % 256;
+      for (int i = 0; i < MAX_MESSAGE_LENGTH; i++) { 
+        if (i == 9) { // Stop at the 10th byte (9th index)
+          checksum = checksum % 256; // CheckSum8 Modulo 256 - https://www.scadacore.com/tools/programming-calculators/online-checksum-calculator/
         } else {
-            checksum += message[i];
+            checksum += message[i]; // Add the current byte of the loop to the checksum total
         }
       }
-      if (message[9] == checksum) {
-        // Prints the Message if different from previous
-        // Excudes the internal use byte in position 7 or check sum.
+
+      if (message[9] == checksum) { // Only accept messages that match the checksum 10th byte and our calculation - prevents corrupted data
+
+
         if (message[1] != prev_message[1] or message[2] != prev_message[2] or message[3] != prev_message[3] or message[4] != prev_message[4] or message[5] != prev_message[5] or message[6] != prev_message[6] or message[8] != prev_message[8]) {
-          // Sets New Data to True
-          Serial.print("The message in HEX is: ");
+          // Excudes the internal use byte in position 7 or check sum since we already verified the checksum matches
+
+          Serial.print("The message in HEX is: "); // Print the message we got that matches the checksum therefore is not corrupted, and is also different from the previous message
           for (int i = 0; i < MAX_MESSAGE_LENGTH; i++) {
             Serial.print(message[i], HEX);
             Serial.print(",");
           }
-          Serial.print('\n');
-          Serial.print("The checksum is: ");
-          Serial.print(checksum, HEX);
-          Serial.print('\n');
 
-          new_data = true;
+          new_data = true; // Sets New Data to True
 
           // Assigns values from message to packet
           packet.Green_Light = bitRead(message[5], 3);
@@ -126,7 +119,7 @@ void loop() {
           packet.Yellow_Green_Light = bitRead(message[5], 4);
           packet.Yellow_Red_Light = bitRead(message[5], 5);
 
-          // Stuff not needed for repeaters
+          // This stuff is not needed for repeaters but I left it in case someone wants to use it later
           packet.Yellow_Card_Green = bitRead(message[8], 2);
           packet.Yellow_Card_Red = bitRead(message[8], 3);
           packet.Red_Card_Green = bitRead(message[8], 0);
@@ -135,13 +128,13 @@ void loop() {
           packet.Priority_Right = bitRead(message[6], 2);
           packet.Priority_Left = bitRead(message[6], 3);
 
-          // Stores the Score and Time
+          // Score and Time - has to be converted to an int from hex
           packet.Right_Score = hex_string_to_int(message[1]);
           packet.Left_Score = hex_string_to_int(message[2]);
           packet.Seconds_Remaining = hex_string_to_int(message[3]);
           packet.Minutes_Remaining = hex_string_to_int(message[4]);
 
-          // Sets Previous Message to Current Message
+          // Sets Previous Message to Current Message - so we know when a unique message comes in later
           for (int i = 0; i < MAX_MESSAGE_LENGTH; i++) {
             prev_message[i] = message[i];
           }
@@ -169,34 +162,35 @@ void loop() {
           }
           // Left fencer lights
           if (packet.Red_Light == 1) {
-            fill_solid(left, NUM_LEDS, CRGB::Red);
+            fill_solid(left, NUM_LEDS, CRGB::Red); // On target left
             Serial.println("FOTL ON TARGET");
           } else if (packet.White_Red_Light == 1) {
-            fill_solid(left, NUM_LEDS, CRGB::White);
+            fill_solid(left, NUM_LEDS, CRGB::White); // Off target left
             Serial.println("FOTL OFF TARGET");
           } else {
-            fill_solid(left, NUM_LEDS, CRGB::Black);
+            fill_solid(left, NUM_LEDS, CRGB::Black); // No light on left
             Serial.println("FOTL NO LIGHT");
           }
           FastLED.show(); // Send the changes to the LEDs
         }
       } else {
-      Serial.println("Wrong checksum! Throwing it out.");
-      Serial.print('\n');
-      Serial.print('\n');
+      Serial.println("Wrong checksum! Throwing it out."); // If the checksum doesn't match, disregard the message and try again
       }
     } else {
         Serial.println("Unexpected Message Position, Reseting to zero.");
         message_pos = 0;
     }
   }
+  
+  /* The Favero FA-05 stops sending serial for small moments of time while it is on so checking for serial to turn off the lights doesn't work.
+  I feel like there is a better way to do this, but this seems to work so I didn't feel like messing with it more.*/
   COUNTER++;
   if (COUNTER > 10000) { // turn off the lights if 10,000 loops have passed and haven't gotten any serial connection.
-    if (MACHINE_OFF == false) { // only turn the lights off the lights once if 10,000 loops have passed
+    if (MACHINE_OFF == false) { // only turn the lights off when the machine was previously on - prevents the spamming of turning off the lights
       MACHINE_OFF = true;
       fill_solid(left, NUM_LEDS, CRGB::Black);
       fill_solid(right, NUM_LEDS, CRGB::Black);
-      Serial.println("machine off");
+      Serial.println("Machine is off");
       FastLED.show();
     }
     COUNTER = 0;
