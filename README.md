@@ -66,7 +66,7 @@ Credit for this chart goes to @Gioee: https://github.com/Gioee/fav3er0-master-em
 
 <h4>My LEDs are showing the wrong color (sometimes)!</h4>
 
-- The code is set to only send signals for the appropriate color for left (red) and right (green) fencers and white for off-target. If the colors are mismatched such as green and red on the opposite sides, then move your led strip or swap the data pin connections. You can also ensure your LED strips are truly RGB, or GRB and edit that in line 44 and 45 [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L44). If you are getting some other color like a blue or a unexpected white, its most likely your LED configuration that is causing the issue. There is a lot of knowledge that you need to know that comes with LED strips (that I hadn't known before this project), such as the power injection or wire gauge for voltage drop off. The site  https://quinled.info/ is a fantastic resource for determing your LED strip power usage, and how to get the best results out of your LEDs. Be sure to watch some of the videos on their website or Youtube channel.
+- The code is set to only send signals for the appropriate color for left (red) and right (green) fencers and white for off-target. If the colors are mismatched such as green and red on the opposite sides, then move your led strip or swap the data pin connections. You can also ensure your LED strips are truly RGB, or GRB and edit that in line 44 and 45 in [Wemos_Favero_Serial_Parser.ino](Wemos_Favero_Serial_Parser/Wemos_Favero_Serial_Parser.ino#L44). If you are getting some other color like a blue or a unexpected white, its most likely your LED configuration that is causing the issue. There is a lot of knowledge that you need to know that comes with LED strips (that I hadn't known before this project), such as the power injection or wire gauge for voltage drop off. The site  https://quinled.info/ is a fantastic resource for determing your LED strip power usage, and how to get the best results out of your LEDs. Be sure to watch some of the videos on their website or Youtube channel.
 
 <h4>Serial monitor says I am getting a lot of wrong checksums?</h4>
 
@@ -81,5 +81,5 @@ Credit for this chart goes to @Gioee: https://github.com/Gioee/fav3er0-master-em
 If you have any improvements, please open a pull request. I am definitely not doing some stuff the most optimal way and I would greatly appreciate any additions.
 
 
-Credit for the serial parsing came from @BenKohn2004 and their repository: https://github.com/BenKohn2004/Favero_Overlay  
+Credit for the serial parsing came from @BenKohn2004: https://github.com/BenKohn2004/Favero_Overlay  
 Credit for discovering the checksum verification that is used goes to @Gioee: https://github.com/Gioee/fav3er0-master-emulator  
