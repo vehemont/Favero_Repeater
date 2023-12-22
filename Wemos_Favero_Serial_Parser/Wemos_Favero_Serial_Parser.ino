@@ -43,7 +43,7 @@ void setup() {
 
   FastLED.addLeds<WS2812, FOTL_DATA, GRB>(left, NUM_LEDS); // I initialize the LEDs using GRB, your LED strip may be RGB! Confirm in the datasheet for your LED strip.
   FastLED.addLeds<WS2812, FOTR_DATA, GRB>(right, NUM_LEDS);
-  FastLED.setMaxPowerInVoltsAndMilliamps(5, 2000); // This is 5v, 2amps. Change this to your max output between both strips combined.
+  FastLED.setMaxPowerInVoltsAndMilliamps(5, 16000); // This is 5v, 2amps. Change this to your max output between both strips combined.
 
   Serial.setRxBufferSize(1024);
   Serial.begin(2400);  // FA-01, FA-05, & FA-07 serial settings: 2400-N-8-1
@@ -68,8 +68,6 @@ void loop() {
   while (Serial.available() > 0) {
     // All of this serial handling was taken from https://github.com/BenKohn2004/Favero_Overlay
     // Create a place to hold the incoming message
-    COUNTER = 0;
-    MACHINE_OFF = false; // To turn off the lights later
 
     static char message[MAX_MESSAGE_LENGTH];
     static char prev_message[MAX_MESSAGE_LENGTH];
@@ -99,7 +97,8 @@ void loop() {
       }
 
       if (message[9] == checksum) { // Only accept messages that match the checksum 10th byte and our calculation - prevents corrupted data
-
+        COUNTER = 0; // To turn off the lights later.
+        MACHINE_OFF = false; // If we got a verified message from the scoring machine, declare the machine is powered on.
 
         if (message[1] != prev_message[1] or message[2] != prev_message[2] or message[3] != prev_message[3] or message[4] != prev_message[4] or message[5] != prev_message[5] or message[6] != prev_message[6] or message[8] != prev_message[8]) {
           // Excudes the internal use byte in position 7 or check sum since we already verified the checksum matches
@@ -109,7 +108,7 @@ void loop() {
             Serial.print(message[i], HEX);
             Serial.print(",");
           }
-
+          Serial.print("\n");
           new_data = true; // Sets New Data to True
 
           // Assigns values from message to packet
